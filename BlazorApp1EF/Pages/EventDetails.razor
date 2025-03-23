@@ -1,0 +1,23 @@
+@page "/event-details"
+
+<h1>Event Details</h1>
+<p>More information about the selected event will go here...</p>
+
+@inject StateContainer StateContainer
+
+@if (StateContainer.UserName != null)
+{
+    <p>Welcome, @StateContainer.UserName!</p>
+    <button @onclick="Logout">Logout</button>
+}
+else
+{
+    <p>No active session.</p>
+}
+
+@code {
+    private void Logout()
+    {
+        StateContainer.ClearSession();
+    }
+}

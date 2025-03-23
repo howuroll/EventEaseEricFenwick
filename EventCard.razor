@@ -1,0 +1,61 @@
+<div class="event-card">
+    <h3>@EventName</h3>
+    <p><strong>Date:</strong> @EventDate</p>
+    <p><strong>Location:</strong> @EventLocation</p>
+    <button @onclick="NavigateToDetails">View Details</button>
+</div>
+
+@inject NavigationManager Navigation
+
+private void NavigateToDetails()
+{
+    Navigation.NavigateTo("/event-details");
+}
+
+@code {
+    [Parameter] public string EventName { get; set; }
+    [Parameter] public string EventDate { get; set; }
+    [Parameter] public string EventLocation { get; set; }
+
+    private bool IsValid => 
+        !string.IsNullOrWhiteSpace(EventName) && 
+        !string.IsNullOrWhiteSpace(EventDate) && 
+        !string.IsNullOrWhiteSpace(EventLocation);
+
+    private void NavigateToDetails()
+    {
+        if (IsValid)
+        {
+            Navigation.NavigateTo("/event-details");
+        }
+    }
+}
+
+<div class="event-card">
+    @if (IsValid)
+    {
+        <h3>@EventName</h3>
+        <p><strong>Date:</strong> @EventDate</p>
+        <p><strong>Location:</strong> @EventLocation</p>
+        <button @onclick="NavigateToDetails">View Details</button>
+    }
+    else
+    {
+        <p class="error-message">Invalid event data. Please check the details.</p>
+    }
+</div>
+
+@inject AttendanceTracker AttendanceTracker
+
+<h3>Event Attendance</h3>
+
+<button @onclick="MarkAttendance">Mark Attendance</button>
+
+@code {
+    private void MarkAttendance()
+    {
+        AttendanceTracker.MarkAttendance("Corporate Meetup", "John Doe");
+    }
+}
+
+

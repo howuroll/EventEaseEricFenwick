@@ -1,0 +1,38 @@
+<EditForm Model="@RegistrationModel" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label for="name">Name:</label>
+        <InputText id="name" @bind-Value="RegistrationModel.Name" />
+        <ValidationMessage For="@(() => RegistrationModel.Name)" />
+    </div>
+
+    <div>
+        <label for="email">Email:</label>
+        <InputText id="email" @bind-Value="RegistrationModel.Email" />
+        <ValidationMessage For="@(() => RegistrationModel.Email)" />
+    </div>
+
+    <button type="submit">Register</button>
+</EditForm>
+
+@code {
+    private RegistrationModel RegistrationModel = new();
+
+    private void HandleValidSubmit()
+    {
+        // Logic for submitting the registration
+        Console.WriteLine($"Registered: {RegistrationModel.Name}, {RegistrationModel.Email}");
+    }
+
+    public class RegistrationModel
+    {
+        [Required(ErrorMessage = "Name is required")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
+        public string Email { get; set; }
+    }
+}
